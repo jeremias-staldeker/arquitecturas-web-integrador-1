@@ -2,6 +2,6 @@
 Arquitecturas Web - Integrador N°1
 
 # Integrantes:
-Juan Schwindt
-Facundo Sanchez
-Jeremías Staldeker
+- Juan Schwindt
+- Facundo Sanchez
+- Jeremías Staldeker
