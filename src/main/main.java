@@ -28,13 +28,6 @@ public class main {
 		CSVReaderServiceImpl csvReader = new CSVReaderServiceImpl();
 
 		try {
-			// 1) Crear las tablas en base de datos
-			clienteDao.createTable();
-			productoDao.createTable();
-			facturaDao.createTable();
-			productoFacturaDao.createTable();
-			System.out.println("Tablas creadas correctamente.");
-
 			// 2) Rutas a los archivos CSV
 			String clientesCSVPath = "resources\\clientes.csv";
 			String facturasCSVPath = "resources\\facturas.csv";
@@ -47,29 +40,36 @@ public class main {
 			List<Factura> facturas = csvReader.readFactureFromCSV(facturasCSVPath);
 			List<ProductoFactura> productoFacturas = csvReader.readProductFactureFromCSV(productoFacturasCSVPath);
 
-			// 2) Guardar los datos en la base de datos
-			System.out.println("Inicio de carga de datos.");
-			clienteDao.createClientes(clientes);
-			productoDao.createProducts(productos);
-			facturaDao.createFacturas(facturas);
-			productoFacturaDao.createProductoFacturas(productoFacturas);
-			System.out.println("Datos cargados en la base de datos correctamente.");
+			// 1) Crear las tablas en base de datos
+			clienteDao.createTable();
+			productoDao.createTable();
+			facturaDao.createTable();
+			productoFacturaDao.createTable();
+			System.out.println("Tablas creadas correctamente.");
 
-			// 4) Obtner el producto que mas recaudó.
+//			// 2) Guardar los datos en la base de datos
+//			System.out.println("Inicio de carga de datos.");
+//			clienteDao.createClientes(clientes);
+//			productoDao.createProducts(productos);
+//			facturaDao.createFacturas(facturas);
+//			productoFacturaDao.createProductoFacturas(productoFacturas);
+//			System.out.println("Datos cargados en la base de datos correctamente.");
+
+			// 4) Obtner el producto que mas recaudacion.
 			Producto producto = productoDao.getProductoMayorRecaudacion();
 			if (producto != null) {
 				System.out
-						.println("Producto con mayor recaudación: " + producto.getId() + " - " + producto.getNombre());
+						.println("Producto con mayor recaudacion: " + producto.getId() + " - " + producto.getNombre());
 			}
 
 			System.out.println("----------------------------------");
 
-			// 5) Listado de clientes ordenados segun la recaudación
+			// 5) Listado de clientes ordenados segun la recaudacion
 			List<RespuestaClienteFacturacion> clienteFacturacion = clienteDao.getClientesPorFacturacion();
 			for (RespuestaClienteFacturacion cliente : clienteFacturacion) {
 				System.out.println("Cliente: " + cliente.getNombre());
 				System.out.println("Email: " + cliente.getEmail());
-				System.out.println("Recaudación: " + cliente.getRecaudacion());
+				System.out.println("Recaudacion: " + cliente.getRecaudacion());
 				System.out.println("----------------------------------");
 			}
 
