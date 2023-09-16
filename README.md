@@ -1,13 +1,16 @@
 # Arquitecturas Web - Integrador N°1
 Arquitecturas Web - Integrador N°1
 
+
 # Integrantes:
 - Juan Schwindt
 - Facundo Sanchez
 - Jeremías Staldeker
+- 
 
 # Diagrama de Clases:
 ![Diagrama de Clases](resources/diagrama-clases.svg)
+
 
 # Aclaraciones:
 Se decidió utilizar una base de datos MySQL alojada en un servidor externo. Por lo tanto, la inserción de datos (como en el caso del archivo facturas-productos.csv) puede llevar más tiempo del esperado. Esto podría resolverse utilizando una base de datos local para las pruebas.
