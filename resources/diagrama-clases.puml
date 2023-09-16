@@ -1,0 +1,241 @@
+@startuml
+skinparam classAttributeIconSize 0
+class Producto{
+- id : int
+- nombre : String
+- valor : float
++ Producto(id : int, nombre : String, valor : float)
++ getId() : int
++ setId(id : int) : void
++ getNombre() : String
++ setNombre(nombre : String) : void
++ getValor() : float
++ setValor(valor : float) : void
++ toString() : String
+}
+class ProductoEntity{
+- idProducto : int
+- nombre : String
+- valor : Float
++ ProductoEntity()
++ getIdProducto() : int
++ setIdProducto(idProducto : int) : void
++ getNombre() : String
++ setNombre(nombre : String) : void
++ getValor() : Float
++ setValor(valor : Float) : void
+}
+class RespuestaClienteFacturacion{
+- recaudacion : float
++ RespuestaClienteFacturacion(id : int, nombre : String, email : String, recaudacion : Float)
++ getRecaudacion() : float
++ setRecaudacion(recaudacion : float) : void
+}
+RespuestaClienteFacturacion --|> Cliente
+class FacturaMapper{
++ FacturaMapper()
++ {static} mapFactura(entity : FacturaEntity) : Factura
++ {static} mapFacturaEntity(modelo : Factura) : FacturaEntity
+}
+class DataBase{
+}
+class main{
++ {static} main(args : String[]) : void
+}
+class ClienteMapper{
++ ClienteMapper()
++ {static} mapCliente(entity : ClienteEntity) : Cliente
++ {static} mapClienteEntity(modelo : Cliente) : ClienteEntity
+}
+class ProductoFactura{
+- cantidad : int
+- producto : Producto
+- factura : Factura
++ ProductoFactura(cantidad : int, producto : Producto, factura : Factura)
++ getCantidad() : int
++ setCantidad(cantidad : int) : void
++ getProducto() : Producto
++ setProducto(producto : Producto) : void
++ getFactura() : Factura
++ setFactura(factura : Factura) : void
+}
+class ProductoDao{
++ createTable() : void
++ getProducto(id : int) : Producto
++ getProductos() : ArrayList<Producto>
++ createProducts(productosACrear : List<Producto>) : List<Producto>
++ createProduct(producto : Producto) : Producto
++ updateProduct(producto : Producto) : Producto
++ getProductoMayorRecaudacion() : Producto
+- createProduct(producto : Producto, conn : Connection) : Producto
+}
+ProductoDao ..|> IProductoDao
+class FacturaProductoMapper{
++ FacturaProductoMapper()
++ {static} mapProductoFactura(entity : FacturaProductoEntity) : ProductoFactura
++ {static} mapProductoFacturaEntity(modelo : ProductoFactura) : FacturaProductoEntity
+}
+class MySqlDao{
+- {static} Driver : String
+- {static} URL : String
+- {static} USER : String
+- {static} PASSWORD : String
+- {static} instance : MySqlDao
+- {static} connection : Connection
++ getProductoDao() : ProductoDao
++ getFacturaDao() : FacturaDao
++ getClienteDao() : ClienteDao
++ getProductoFacturaDao() : ProductoFacturaDao
+- {static} createConnection() : Connection
++ {static} getConnection() : Connection
++ {static} getInstance() : DaoFactory
++ {static} commit(connection : Connection) : void
++ {static} rollback(connection : Connection) : void
++ closeConnection() : void
+}
+MySqlDao --|> DaoFactory
+class Cliente{
+- id : int
+- nombre : String
+- email : String
++ Cliente(id : int, nombre : String, email : String)
++ getId() : int
++ setId(id : int) : void
++ getNombre() : String
++ setNombre(nombre : String) : void
++ getEmail() : String
++ setEmail(email : String) : void
+}
+class DaoFactory{
++ {static} getDaoFactory(database : TypesDB) : DaoFactory
++ {abstract} closeConnection() : void
++ {abstract} getProductoDao() : ProductoDao
++ {abstract} getFacturaDao() : FacturaDao
++ {abstract} getClienteDao() : ClienteDao
++ {abstract} getProductoFacturaDao() : ProductoFacturaDao
+}
+class CSVReaderServiceImpl{
++ readClientsFromCSV(filePath : String) : List<Cliente>
++ readFactureFromCSV(filePath : String) : List<Factura>
++ readProductsFromCSV(filePath : String) : List<Producto>
++ readProductFactureFromCSV(filePath : String) : List<ProductoFactura>
+}
+CSVReaderServiceImpl ..|> CSVReaderService
+class FacturaDao{
++ createTable() : void
++ getFactura(id : int) : Factura
++ getFactura() : ArrayList<Factura>
++ createFacturas(facturasACrear : List<Factura>) : List<Factura>
++ createFactura(factura : Factura) : Factura
+- createFactura(factura : Factura, conn : Connection) : Factura
+}
+FacturaDao ..|> IFacturaDao
+class ClienteDao{
++ createTable() : void
++ getCliente(id : int) : Cliente
++ getClientes() : ArrayList<Cliente>
++ getClientesPorFacturacion() : List<RespuestaClienteFacturacion>
++ createClientes(clientesACrear : List<Cliente>) : List<Cliente>
++ createCliente(cliente : Cliente) : Cliente
++ updateCliente(cliente : Cliente) : Cliente
+- createCliente(cliente : Cliente, conn : Connection) : Cliente
+}
+ClienteDao ..|> IClienteDao
+class ClienteEntity{
+- idCliente : int
+- nombre : String
+- email : String
++ ClienteEntity()
++ getIdCliente() : int
++ setIdCliente(idCliente : int) : void
++ getNombre() : String
++ setNombre(nombre : String) : void
++ getEmail() : String
++ setEmail(email : String) : void
+}
+class FacturaEntity{
+- idFactura : int
+- cliente : ClienteEntity
++ FacturaEntity()
++ getIdFactura() : int
++ setIdFactura(idFactura : int) : void
++ getCliente() : ClienteEntity
++ setCliente(cliente : ClienteEntity) : void
+}
+class ProductoFacturaDao{
++ createTable() : void
++ createProductoFacturas(productosFacturaACrear : List<ProductoFactura>) : List<ProductoFactura>
+- createProductoFactura(productoFactura : ProductoFactura, conn : Connection) : ProductoFactura
+}
+ProductoFacturaDao ..|> IProductoFacturaDao
+class Factura{
+- id : int
+- idCliente : int
++ Factura(id : int, idCliente : int)
++ getId() : int
++ setId(id : int) : void
++ getIdCliente() : int
++ setIdCliente(idCliente : int) : void
+}
+class ProductoMapper{
++ ProductoMapper()
++ {static} mapProducto(entity : ProductoEntity) : Producto
++ {static} mapProductoEntity(modelo : Producto) : ProductoEntity
+}
+class FacturaProductoEntity{
+- factura : FacturaEntity
+- producto : ProductoEntity
+- cantidad : int
++ FacturaProductoEntity()
++ getFactura() : FacturaEntity
++ setFactura(factura : FacturaEntity) : void
++ getProducto() : ProductoEntity
++ setProducto(producto : ProductoEntity) : void
++ getCantidad() : int
++ setCantidad(cantidad : int) : void
+}
+ProductoFactura--"- producto" Producto
+ProductoFactura--"- factura" Factura
+MySqlDao--"- {static} instance" MySqlDao
+FacturaEntity--"- cliente" ClienteEntity
+FacturaProductoEntity--"- factura" FacturaEntity
+FacturaProductoEntity--"- producto" ProductoEntity
+interface IFacturaDao{
++ createTable() : void
++ getFactura(id : int) : Factura
++ getFactura() : ArrayList<Factura>
++ createFactura(factura : Factura) : Factura
++ createFacturas(facturasACrear : List<Factura>) : List<Factura>
+}
+interface CSVReaderService{
++ readClientsFromCSV(filePath : String) : List<Cliente>
++ readFactureFromCSV(filePath : String) : List<Factura>
++ readProductsFromCSV(filePath : String) : List<Producto>
++ readProductFactureFromCSV(filePath : String) : List<ProductoFactura>
+}
+interface IClienteDao{
++ createTable() : void
++ getCliente(id : int) : Cliente
++ getClientes() : ArrayList<Cliente>
++ getClientesPorFacturacion() : List<RespuestaClienteFacturacion>
++ createCliente(cliente : Cliente) : Cliente
++ createClientes(clientes : List<Cliente>) : List<Cliente>
++ updateCliente(cliente : Cliente) : Cliente
+}
+interface IProductoDao{
++ createTable() : void
++ getProducto(id : int) : Producto
++ getProductos() : ArrayList<Producto>
++ createProduct(producto : Producto) : Producto
++ createProducts(productosACrear : List<Producto>) : List<Producto>
++ updateProduct(producto : Producto) : Producto
++ getProductoMayorRecaudacion() : Producto
+}
+interface IProductoFacturaDao{
++ createTable() : void
++ createProductoFacturas(productosFacturaACrear : List<ProductoFactura>) : List<ProductoFactura>
+}
+enum TypesDB{
+MYSQL
+}
+@enduml
