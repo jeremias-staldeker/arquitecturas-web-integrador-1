@@ -6,7 +6,7 @@ Arquitecturas Web - Integrador N°1
 - Juan Schwindt
 - Facundo Sanchez
 - Jeremías Staldeker
-- 
+  
 
 # Diagrama de Clases:
 ![Diagrama de Clases](resources/diagrama-clases.svg)
